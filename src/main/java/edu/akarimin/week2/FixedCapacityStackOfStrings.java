@@ -14,7 +14,7 @@ public class FixedCapacityStackOfStrings {
     private final String[] s;
     private int n = 0;
 
-    public FixedCapacityStackOfStrings(/*CHEAT*/int capacity) { //TODO: Remove Cheat
+    public FixedCapacityStackOfStrings(/*CHEAT*/int capacity) {
         s = new String[capacity];
     }
 

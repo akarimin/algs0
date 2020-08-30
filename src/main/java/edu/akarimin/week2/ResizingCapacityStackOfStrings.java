@@ -2,7 +2,6 @@ package edu.akarimin.week2;
 
 /**
  * Memory: ~8N to ~32N
- * Time:
  * Tradeoff: Resizing array vs. LinkedList => If you want a guarantee that each operation is fast, like switching
  * Internet packet, use LinkedList; Ow, if you care only about total amount of time, use resizing array.
  * */
