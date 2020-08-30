@@ -5,19 +5,15 @@ package edu.akarimin.week2;
  */
 public class LinkedQueueOfStrings {
 
-    private Node first, last;
+    private Node<String> first, last;
 
-    private class Node {
-        String item;
-        Node next;
-    }
 
     public LinkedQueueOfStrings() {
     }
 
     public void enqueue(String item) {
-        Node oldLast = last;
-        last = new Node();
+        Node<String> oldLast = last;
+        last = new Node<>();
         last.item = item;
         last.next = null;
         if (isEmpty())

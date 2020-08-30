@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class LinkedStackOfStrings {
 
-    private Node first;
+    private Node<String> first;
     private int n;
 
     public LinkedStackOfStrings() {
@@ -19,14 +19,9 @@ public class LinkedStackOfStrings {
         n = 0;
     }
 
-    private class Node {
-        String item;
-        Node next;
-    }
-
     public void push(String item) {
-        Node oldFirst = first;
-        first = new Node();
+        Node<String> oldFirst = first;
+        first = new Node<>();
         first.item = item;
         first.next = oldFirst;
         n++;

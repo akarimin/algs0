@@ -5,17 +5,11 @@ package edu.akarimin.week2;
  */
 public class ParameterizedStack<Item> {
 
-    private Node first;
-    private int n;
-
-    private class Node {
-        Item item;
-        Node next;
-    }
+    private Node<Item> first;
 
     public void push(Item item) {
-        Node firstOld = first;
-        first = new Node();
+        Node<Item> firstOld = first;
+        first = new Node<>();
         first.item = item;
         first.next = firstOld;
     }
