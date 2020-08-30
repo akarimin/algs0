@@ -1,7 +1,8 @@
 # algorithm Princeton Part 1
 
 Algorithm Course 
-Assignments and syllabus by Princeton
+
+Assignments and syllabus: Princeton University
 
 https://www.coursera.org/learn/algorithms-part1
 
