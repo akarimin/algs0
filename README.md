@@ -1,1 +1,4 @@
-# algs0
+# algorithm-mit
+
+Algorithm Course 
+Assignments and syllabus by MIT
