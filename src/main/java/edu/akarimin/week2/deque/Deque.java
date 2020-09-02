@@ -12,8 +12,7 @@ import java.util.Objects;
  */
 public class Deque<Item> implements Iterable<Item> {
 
-    private Node<Item> first;
-    private Node<Item> last;
+    private Node<Item> first, last;
     private int n;
 
     private static class Node<Item> {
