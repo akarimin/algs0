@@ -16,7 +16,7 @@ public class Deque<Item> implements Iterable<Item> {
     private int n;
 
     private static class Node<Item> {
-        Node<Item> next;
+        Node<Item> next, prev;
         Item item;
     }
 
@@ -25,6 +25,8 @@ public class Deque<Item> implements Iterable<Item> {
         n = 0;
         first = new Node<>();
         last = new Node<>();
+        first.next = last;
+        last.prev = first;
     }
 
     // is the deque empty?
@@ -44,12 +46,7 @@ public class Deque<Item> implements Iterable<Item> {
         first = new Node<>();
         first.item = item;
         first.next = oldFirst;
-//        if (first.next == last)
-//            last.next = first;
-//        else {
-//            oldFirst.next = last;
-//            last.next = first;
-//        }
+        first.next.prev = first;
         n++;
     }
 
@@ -59,7 +56,8 @@ public class Deque<Item> implements Iterable<Item> {
         Node<Item> oldLast = last;
         last = new Node<>();
         last.item = item;
-        last.next = oldLast;
+        last.prev = oldLast;
+        last.prev.next = last;
         n++;
     }
 
@@ -68,6 +66,8 @@ public class Deque<Item> implements Iterable<Item> {
         this.validatePoppingItemNullity();
         Item item = first.item;
         first = first.next;
+        first.next.prev = first;
+        first.prev = null;
         n--;
         return item;
     }
@@ -76,7 +76,9 @@ public class Deque<Item> implements Iterable<Item> {
     public Item removeLast() {
         this.validatePoppingItemNullity();
         Item item = last.item;
-        last = last.next;
+        last = last.prev;
+        last.prev.next = last;
+        last.next = null;
         n--;
         return item;
     }
@@ -100,7 +102,7 @@ public class Deque<Item> implements Iterable<Item> {
         public Item next() {
             validatePoppingItemNullity();
             Item next = current.item;
-            current = current.next;
+            first = current.next;
             return next;
         }
 
