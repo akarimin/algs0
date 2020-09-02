@@ -12,19 +12,23 @@ import java.util.Objects;
  */
 public class Deque<Item> implements Iterable<Item> {
 
-    private Node<Item> first, last;
+    private Node<Item> first, last; // Dummy nodes
     private int n;
 
-    private static class Node<Item> {
+    private class Node<Item> {
         Node<Item> next, prev;
         Item item;
+
+        public Node(Item item) {
+            this.item = item;
+        }
     }
 
     // construct an empty deque
     public Deque() {
         n = 0;
-        first = new Node<>();
-        last = new Node<>();
+        first = new Node<>(null);
+        last = new Node<>(null);
         first.next = last;
         last.prev = first;
     }
@@ -42,45 +46,41 @@ public class Deque<Item> implements Iterable<Item> {
     // add the item to the front
     public void addFirst(Item item) {
         this.validatePushingItemNullity(item);
-        Node<Item> oldFirst = first;
-        first = new Node<>();
-        first.item = item;
-        first.next = oldFirst;
-        first.next.prev = first;
+        Node<Item> node = new Node<>(item);
+        node.next = first.next;
+        first.next.prev = node;
+        first.next = node;
         n++;
     }
 
     // add the item to the back
     public void addLast(Item item) {
         this.validatePushingItemNullity(item);
-        Node<Item> oldLast = last;
-        last = new Node<>();
-        last.item = item;
-        last.prev = oldLast;
-        last.prev.next = last;
+        Node<Item> node = new Node<>(item);
+        node.prev = last.prev;
+        last.prev.next = node;
+        last.prev = node;
         n++;
     }
 
     // remove and return the item from the front
     public Item removeFirst() {
         this.validatePoppingItemNullity();
-        Item item = first.item;
-        first = first.next;
+        Node<Item> node = first.next;
+        first.next = node.next;
         first.next.prev = first;
-        first.prev = null;
         n--;
-        return item;
+        return node.item;
     }
 
     // remove and return the item from the back
     public Item removeLast() {
         this.validatePoppingItemNullity();
-        Item item = last.item;
-        last = last.prev;
+        Node<Item> node = last.prev;
+        last.prev = node.prev;
         last.prev.next = last;
-        last.next = null;
         n--;
-        return item;
+        return node.item;
     }
 
     // return an iterator over items in order from front to back
@@ -95,14 +95,15 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return current != null;
+            return current.next != last;
         }
 
         @Override
         public Item next() {
-            validatePoppingItemNullity();
+            if (!hasNext())
+                throw new NoSuchElementException("cannot remove an item from an empty Deque.");
             Item next = current.item;
-            first = current.next;
+            current = current.next;
             return next;
         }
 
