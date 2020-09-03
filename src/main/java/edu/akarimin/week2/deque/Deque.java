@@ -12,14 +12,16 @@ import java.util.Objects;
  */
 public class Deque<Item> implements Iterable<Item> {
 
-    private Node<Item> first, last; // Dummy nodes
+    private final Node first; // Dummy nodes
+    private final Node last;  // Dummy nodes
     private int n;
 
-    private class Node<Item> {
-        Node<Item> next, prev;
+    private class Node {
+
+        Node next, prev;
         Item item;
 
-        public Node(Item item) {
+        Node(Item item) {
             this.item = item;
         }
     }
@@ -27,8 +29,8 @@ public class Deque<Item> implements Iterable<Item> {
     // construct an empty deque
     public Deque() {
         n = 0;
-        first = new Node<>(null);
-        last = new Node<>(null);
+        first = new Node(null);
+        last = new Node(null);
         first.next = last;
         last.prev = first;
     }
@@ -46,8 +48,9 @@ public class Deque<Item> implements Iterable<Item> {
     // add the item to the front
     public void addFirst(Item item) {
         this.validatePushingItemNullity(item);
-        Node<Item> node = new Node<>(item);
+        Node node = new Node(item);
         node.next = first.next;
+        node.prev = first;
         first.next.prev = node;
         first.next = node;
         n++;
@@ -56,7 +59,8 @@ public class Deque<Item> implements Iterable<Item> {
     // add the item to the back
     public void addLast(Item item) {
         this.validatePushingItemNullity(item);
-        Node<Item> node = new Node<>(item);
+        Node node = new Node(item);
+        node.next = last;
         node.prev = last.prev;
         last.prev.next = node;
         last.prev = node;
@@ -66,7 +70,7 @@ public class Deque<Item> implements Iterable<Item> {
     // remove and return the item from the front
     public Item removeFirst() {
         this.validatePoppingItemNullity();
-        Node<Item> node = first.next;
+        Node node = first.next;
         first.next = node.next;
         first.next.prev = first;
         n--;
@@ -76,7 +80,7 @@ public class Deque<Item> implements Iterable<Item> {
     // remove and return the item from the back
     public Item removeLast() {
         this.validatePoppingItemNullity();
-        Node<Item> node = last.prev;
+        Node node = last.prev;
         last.prev = node.prev;
         last.prev.next = last;
         n--;
@@ -91,20 +95,19 @@ public class Deque<Item> implements Iterable<Item> {
 
     private class DequeIterator implements Iterator<Item> {
 
-        private Node<Item> current = first;
+        private Node current = first;
 
         @Override
         public boolean hasNext() {
-            return current.next != last;
+            return current.next != null;
         }
 
         @Override
         public Item next() {
             if (!hasNext())
                 throw new NoSuchElementException("cannot remove an item from an empty Deque.");
-            Item next = current.item;
             current = current.next;
-            return next;
+            return current.item;
         }
 
         @Override
@@ -125,6 +128,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     // unit testing (required)
     public static void main(String[] args) {
+        StdOut.println("================ STRING DEQUE ================");
         Deque<String> stringDeque = new Deque<>();
         String first = "Algorithm";
         String last = "Data";
@@ -142,7 +146,26 @@ public class Deque<Item> implements Iterable<Item> {
         StdOut.println("item removed from last of Deque: " + stringDeque.removeLast());
         StdOut.println("size of Deque: " + stringDeque.size());
         StdOut.println("is Deque empty: " + stringDeque.isEmpty());
-        while (stringDeque.iterator().hasNext())
-            StdOut.println("item: " + stringDeque.iterator().next());
+        StdOut.println("next item: " + stringDeque.iterator().next());
+        StdOut.println("next item: " + stringDeque.iterator().next());
+        StdOut.println("next item: " + stringDeque.iterator().next());
+
+        StdOut.println("================ INT DEQUE ================");
+        Deque<Integer> intDeque = new Deque<>();
+        intDeque.addFirst(1);
+        StdOut.println("item added to first of Deque: " + 1);
+        intDeque.addLast(2);
+        StdOut.println("item added to last of Deque: " + 2);
+        intDeque.addFirst(3);
+        StdOut.println("item added to first of Deque: " + 3);
+        intDeque.addLast(4);
+        StdOut.println("item added to last of Deque: " + 4);
+        StdOut.println("item removed from first of Deque: " + intDeque.removeFirst());
+        StdOut.println("item removed from last of Deque: " + intDeque.removeLast());
+        StdOut.println("size of Deque: " + intDeque.size());
+        StdOut.println("is Deque empty: " + intDeque.isEmpty());
+        StdOut.println("next item: " + intDeque.iterator().next());
+        StdOut.println("next item: " + intDeque.iterator().next());
+        StdOut.println("next item: " + intDeque.iterator().next());
     }
 }
