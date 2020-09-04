@@ -12,12 +12,12 @@ import java.util.Objects;
  */
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
-    private final Node<Item> first, last;
+    private final Node first, last;
     private int n;
 
-    private class Node<Item> {
+    private class Node {
 
-        Node<Item> next, prev;
+        Node next, prev;
         Item item;
 
         public Node(Item item) {
@@ -28,8 +28,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // construct an empty randomized queue
     public RandomizedQueue() {
         this.n = 0;
-        first = new Node<>(null);
-        last = new Node<>(null);
+        first = new Node(null);
+        last = new Node(null);
     }
 
     // is the randomized queue empty?
@@ -74,9 +74,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         @Override
         public Item next() {
-
-//            throw new NoSuchElementException("cannot remove an item from an empty RandomizedQueue.");
-            return null;
+            throw new NoSuchElementException("cannot remove an item from an empty RandomizedQueue.");
         }
 
         @Override
