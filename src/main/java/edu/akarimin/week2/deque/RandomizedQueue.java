@@ -8,7 +8,7 @@ import java.util.Objects;
 
 /**
  * Randomized queue. A randomized queue is similar to a stack or queue, except that the item
- * removed is chosen uniformly at random among items in the data structure
+ * removed is chosen uniformly at random among items in the data structure.
  */
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
