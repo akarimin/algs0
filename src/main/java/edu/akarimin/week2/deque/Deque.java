@@ -128,7 +128,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     // unit testing (required)
     public static void main(String[] args) {
-        StdOut.println("================ STRING DEQUE ================");
+        StdOut.println("================= STRING DEQUE =================");
         Deque<String> stringDeque = new Deque<>();
         String first = "Algorithm";
         String last = "Data";
@@ -150,7 +150,7 @@ public class Deque<Item> implements Iterable<Item> {
         StdOut.println("next item: " + stringDeque.iterator().next());
         StdOut.println("next item: " + stringDeque.iterator().next());
 
-        StdOut.println("================ INT DEQUE ================");
+        StdOut.println("================= INT DEQUE =================");
         Deque<Integer> intDeque = new Deque<>();
         intDeque.addFirst(1);
         StdOut.println("item added to first of Deque: " + 1);
