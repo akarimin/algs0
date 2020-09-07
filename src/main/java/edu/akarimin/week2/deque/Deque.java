@@ -12,15 +12,13 @@ import java.util.Objects;
  */
 public class Deque<Item> implements Iterable<Item> {
 
-    private final Node first; // Dummy nodes
-    private final Node last;  // Dummy nodes
+    private final Node first, last;  // Dummy nodes
     private int n;
 
     private class Node {
 
+        Node next, prev;
         Item item;
-        Node prev;
-        Node next;
 
         Node(Item item) {
             this.item = item;
