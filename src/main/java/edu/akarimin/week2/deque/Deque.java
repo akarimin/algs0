@@ -18,8 +18,9 @@ public class Deque<Item> implements Iterable<Item> {
 
     private class Node {
 
-        Node next, prev;
         Item item;
+        Node prev;
+        Node next;
 
         Node(Item item) {
             this.item = item;
@@ -28,7 +29,6 @@ public class Deque<Item> implements Iterable<Item> {
 
     // construct an empty deque
     public Deque() {
-        n = 0;
         first = new Node(null);
         last = new Node(null);
         first.next = last;
@@ -99,7 +99,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return current.next != null;
+            return current.next != last;
         }
 
         @Override
@@ -116,7 +116,17 @@ public class Deque<Item> implements Iterable<Item> {
         }
     }
 
-    private void validatePushingItemNullity(final Item item) {
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (Item item : this) {
+            if (Objects.nonNull(item))
+                result.append(",").append(item);
+        }
+        return "[" + (!result.toString().isEmpty() ? result.substring(1) : result) + "]";
+    }
+
+    private void validatePushingItemNullity(Item item) {
         if (Objects.isNull(item))
             throw new IllegalArgumentException("adding item cannot be null.");
     }
@@ -131,41 +141,45 @@ public class Deque<Item> implements Iterable<Item> {
         StdOut.println("================= STRING DEQUE =================");
         Deque<String> stringDeque = new Deque<>();
         String first = "Algorithm";
-        String last = "Data";
-        String second = "Structure";
-        String otherLast = "Java";
+        String last = "Structure";
+        String second = "Java";
+        String secondLast = "Data";
         stringDeque.addFirst(first);
         StdOut.println("item added to first of Deque: " + first);
         stringDeque.addLast(last);
         StdOut.println("item added to last of Deque: " + last);
         stringDeque.addFirst(second);
         StdOut.println("item added to first of Deque: " + second);
-        stringDeque.addLast(otherLast);
-        StdOut.println("item added to last of Deque: " + otherLast);
-        StdOut.println("item removed from first of Deque: " + stringDeque.removeFirst());
-        StdOut.println("item removed from last of Deque: " + stringDeque.removeLast());
-        StdOut.println("size of Deque: " + stringDeque.size());
-        StdOut.println("is Deque empty: " + stringDeque.isEmpty());
-        StdOut.println("next item: " + stringDeque.iterator().next());
-        StdOut.println("next item: " + stringDeque.iterator().next());
-        StdOut.println("next item: " + stringDeque.iterator().next());
+        stringDeque.addLast(secondLast);
+        StdOut.println("item added to last of Deque: " + secondLast);
+        String removedFirst = stringDeque.removeFirst();
+        StdOut.println("item removed from first of Deque " + removedFirst +
+            " ? " + Objects.equals(removedFirst, second));
+        String removedLast = stringDeque.removeLast();
+        StdOut.println("item removed from last of Deque ? " + Objects.equals(removedLast, secondLast));
+        StdOut.println("is size of Deque 2 ? " + (stringDeque.size() == 2));
+        StdOut.println("next item is " + first + " ? " + Objects.equals(stringDeque.iterator().next(), first));
+        StdOut.println("is Deque empty ? " + stringDeque.isEmpty());
+        StdOut.println("Deque has next ? " + stringDeque.iterator().hasNext());
+        StdOut.println("toString is ? [Algorithm,Structure]" +
+            Objects.equals(stringDeque.toString(), "[Algorithm," + "Structure]"));
 
         StdOut.println("================= INT DEQUE =================");
         Deque<Integer> intDeque = new Deque<>();
         intDeque.addFirst(1);
         StdOut.println("item added to first of Deque: " + 1);
-        intDeque.addLast(2);
-        StdOut.println("item added to last of Deque: " + 2);
-        intDeque.addFirst(3);
-        StdOut.println("item added to first of Deque: " + 3);
         intDeque.addLast(4);
         StdOut.println("item added to last of Deque: " + 4);
-        StdOut.println("item removed from first of Deque: " + intDeque.removeFirst());
-        StdOut.println("item removed from last of Deque: " + intDeque.removeLast());
-        StdOut.println("size of Deque: " + intDeque.size());
-        StdOut.println("is Deque empty: " + intDeque.isEmpty());
-        StdOut.println("next item: " + intDeque.iterator().next());
-        StdOut.println("next item: " + intDeque.iterator().next());
-        StdOut.println("next item: " + intDeque.iterator().next());
+        intDeque.addFirst(2);
+        StdOut.println("item added to first of Deque: " + 2);
+        intDeque.addLast(3);
+        StdOut.println("item added to last of Deque: " + 3);
+        StdOut.println("item removed from first of Deque 2 ? " + (intDeque.removeFirst() == 2));
+        StdOut.println("item removed from last of Deque 3 ? " + (intDeque.removeLast() == 3));
+        StdOut.println("is size of Deque 2 ? " + (intDeque.size() == 2));
+        StdOut.println("next item is 1 ? " + (intDeque.iterator().next() == 1));
+        StdOut.println("is Deque empty ? " + intDeque.isEmpty());
+        StdOut.println("Deque has next ? " + intDeque.iterator().hasNext());
+        StdOut.println("toString is [1,4] ? " + Objects.equals(intDeque.toString(), "[1,4]"));
     }
 }
