@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
-    private final Node first, last;
+    private Node first, last;
     private int n;
 
     private class Node {
@@ -45,12 +45,25 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // add the item
     public void enqueue(Item item) {
         this.validatePushingItemNullity(item);
+        Node oldLast = last;
+        last = new Node(item);
+        last.next = null;
+        if (isEmpty())
+            first = last;
+        else
+            oldLast.next = last;
+        n++;
     }
 
     // remove and return a random item
     public Item dequeue() {
         this.validatePoppingItemNullity();
-        return null;
+        Node oldFirst = first;
+        first = oldFirst.next;
+        if (isEmpty())
+            last = null;
+        n--;
+        return oldFirst.item;
     }
 
     // return a random item (but do not remove it)
