@@ -1,6 +1,7 @@
 package edu.akarimin.week2.deque;
 
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -17,7 +18,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private class Node {
 
-        Node next, prev;
+        Node next;
         Item item;
 
         public Node(Item item) {
@@ -69,7 +70,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // return a random item (but do not remove it)
     public Item sample() {
         this.validatePoppingItemNullity();
-        return null;
+        int uniform = StdRandom.uniform(0, n);
+        int i = 0;
+        Node sample = first;
+        while (i < uniform) {
+            sample = sample.next;
+            i++;
+        }
+        return sample.item;
     }
 
     // return an independent iterator over items in random order
@@ -80,14 +88,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private class RandomizedQueueIterator implements Iterator<Item> {
 
+        private Node current = last;
+
         @Override
         public boolean hasNext() {
-            return false;
+            return last != first;
         }
 
         @Override
         public Item next() {
-            throw new NoSuchElementException("cannot remove an item from an empty RandomizedQueue.");
+            if (!hasNext())
+                throw new NoSuchElementException("cannot remove an item from an empty RandomizedQueue.");
+            Node node = current.next;
+            last = last.next;
+            return node.item;
         }
 
         @Override
@@ -110,18 +124,35 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public static void main(String[] args) {
         RandomizedQueue<String> stringQueue = new RandomizedQueue<>();
         String first = "Algorithm";
-        String last = "Data";
-        String second = "Structure";
-        String otherLast = "Java";
+        String second = "Data";
+        String third = "Structure";
+        String fourth = "Java";
+        String fifth = "Princeton";
         stringQueue.enqueue(first);
         StdOut.println("item enqueued to Queue: " + first);
-        stringQueue.enqueue(last);
-        StdOut.println("item enqueued to Queue: " + last);
-        StdOut.println("item dequeued from Queue: " + stringQueue.dequeue());
-        StdOut.println("item sampled from Queue: " + stringQueue.sample());
+        stringQueue.enqueue(second);
+        StdOut.println("item enqueued to Queue: " + second);
+        stringQueue.enqueue(third);
+        StdOut.println("item enqueued to Queue: " + third);
+        stringQueue.enqueue(fourth);
+        StdOut.println("item enqueued to Queue: " + fourth);
+        stringQueue.enqueue(fifth);
+        StdOut.println("item enqueued to Queue: " + fifth);
+        String firstDequeue = stringQueue.dequeue();
+        StdOut.println("item dequeued from Queue: " + firstDequeue);
+        String secondDequeue = stringQueue.dequeue();
+        StdOut.println("item dequeued from Queue: " + secondDequeue);
+        String sampled1 = stringQueue.sample();
+        StdOut.println("item sampled from Queue: " + sampled1);
+        String sampled2 = stringQueue.sample();
+        StdOut.println("item sampled from Queue: " + sampled2);
+        String sampled3 = stringQueue.sample();
+        StdOut.println("item sampled from Queue: " + sampled3);
+        String sampled4 = stringQueue.sample();
+        StdOut.println("item sampled from Queue: " + sampled4);
+        String sampled5 = stringQueue.sample();
+        StdOut.println("item sampled from Queue: " + sampled5);
         StdOut.println("size of Queue: " + stringQueue.size());
         StdOut.println("is Queue empty: " + stringQueue.isEmpty());
-        while (stringQueue.iterator().hasNext())
-            StdOut.println("item: " + stringQueue.iterator().next());
     }
 }
