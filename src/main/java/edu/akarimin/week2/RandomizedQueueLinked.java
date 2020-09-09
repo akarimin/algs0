@@ -1,6 +1,7 @@
-package edu.akarimin.week2.deque;
+package edu.akarimin.week2;
 
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -10,14 +11,26 @@ import java.util.Objects;
  * Randomized queue. A randomized queue is similar to a stack or queue, except that the item
  * removed is chosen uniformly at random among items in the data structure.
  */
-public class RandomizedQueue<Item> implements Iterable<Item> {
+public class RandomizedQueueLinked<Item> implements Iterable<Item> {
 
-    private Item[] items;
+    private Node first, last;
     private int n;
 
+    private class Node {
+
+        Node next;
+        Item item;
+
+        public Node(Item item) {
+            this.item = item;
+        }
+    }
+
     // construct an empty randomized queue
-    public RandomizedQueue() {
+    public RandomizedQueueLinked() {
         this.n = 0;
+        first = new Node(null);
+        last = new Node(null);
     }
 
     // is the randomized queue empty?
@@ -33,20 +46,38 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // add the item
     public void enqueue(Item item) {
         this.validatePushingItemNullity(item);
-
+        Node oldLast = last;
+        last = new Node(item);
+        last.next = null;
+        if (isEmpty())
+            first = last;
+        else
+            oldLast.next = last;
         n++;
     }
 
     // remove and return a random item
     public Item dequeue() {
         this.validatePoppingItemNullity();
-        return null;
+        Node oldFirst = first;
+        first = oldFirst.next;
+        if (isEmpty())
+            last = null;
+        n--;
+        return oldFirst.item;
     }
 
     // return a random item (but do not remove it)
     public Item sample() {
         this.validatePoppingItemNullity();
-        return null;
+        int uniform = StdRandom.uniform(0, n);
+        int i = 0;
+        Node sample = first;
+        while (i < uniform) {
+            sample = sample.next;
+            i++;
+        }
+        return sample.item;
     }
 
     // return an independent iterator over items in random order
@@ -57,16 +88,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private class RandomizedQueueIterator implements Iterator<Item> {
 
+        private Node current = last;
+
         @Override
         public boolean hasNext() {
-            return false;
+            return last != first;
         }
 
         @Override
         public Item next() {
             if (!hasNext())
                 throw new NoSuchElementException("cannot remove an item from an empty RandomizedQueue.");
-            return null;
+            Node node = current.next;
+            last = last.next;
+            return node.item;
         }
 
         @Override
@@ -87,7 +122,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // unit testing (required)
     public static void main(String[] args) {
-        RandomizedQueue<String> stringQueue = new RandomizedQueue<>();
+        RandomizedQueueLinked<String> stringQueue = new RandomizedQueueLinked<>();
         String first = "Algorithm";
         String second = "Data";
         String third = "Structure";
