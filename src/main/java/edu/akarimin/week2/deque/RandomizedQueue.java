@@ -1,6 +1,7 @@
 package edu.akarimin.week2.deque;
 
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -13,40 +14,59 @@ import java.util.Objects;
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private Item[] items;
-    private int n;
+    private int last;
 
-    // construct an empty randomized queue
     public RandomizedQueue() {
-        this.n = 0;
+        @SuppressWarnings("unchecked")
+        Item[] newArray = (Item[]) new Object[1];
+        items = newArray;
+        last = -1;
     }
 
     // is the randomized queue empty?
     public boolean isEmpty() {
-        return n == 0;
+        return size() == 0;
     }
 
     // return the number of items on the randomized queue
     public int size() {
-        return n;
+        return last + 1;
     }
 
     // add the item
     public void enqueue(Item item) {
         this.validatePushingItemNullity(item);
-
-        n++;
+        if (last + 1 == items.length)
+            resize(2 * items.length);
+        items[last++] = item;
     }
 
     // remove and return a random item
     public Item dequeue() {
         this.validatePoppingItemNullity();
-        return null;
+        int rand = StdRandom.uniform(last + 1);
+        Item dequeued = items[rand];
+        items[last--] = null;
+        if (last + 1 == items.length / 4)
+            resize(items.length / 2);
+        return dequeued;
     }
 
     // return a random item (but do not remove it)
     public Item sample() {
         this.validatePoppingItemNullity();
-        return null;
+        Item sample = null;
+        while (sample == null) {
+            sample = items[StdRandom.uniform(last + 1)];
+        }
+        return sample;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void resize(int newCapacity) {
+        Object[] resized = new Object[newCapacity];
+        System.arraycopy(items, 0, resized, 0, items.length);
+        items = (Item[]) resized;
     }
 
     // return an independent iterator over items in random order
@@ -55,6 +75,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return new RandomizedQueueIterator();
     }
 
+    // TODO:
     private class RandomizedQueueIterator implements Iterator<Item> {
 
         @Override
