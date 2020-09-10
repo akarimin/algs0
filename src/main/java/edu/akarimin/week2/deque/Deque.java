@@ -114,16 +114,6 @@ public class Deque<Item> implements Iterable<Item> {
         }
     }
 
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        for (Item item : this) {
-            if (Objects.nonNull(item))
-                result.append(",").append(item);
-        }
-        return "[" + (!result.toString().isEmpty() ? result.substring(1) : result) + "]";
-    }
-
     private void validatePushingItemNullity(Item item) {
         if (Objects.isNull(item))
             throw new IllegalArgumentException("adding item cannot be null.");
@@ -159,8 +149,6 @@ public class Deque<Item> implements Iterable<Item> {
         StdOut.println("next item is " + first + " ? " + Objects.equals(stringDeque.iterator().next(), first));
         StdOut.println("is Deque empty ? " + stringDeque.isEmpty());
         StdOut.println("Deque has next ? " + stringDeque.iterator().hasNext());
-        StdOut.println("toString is ? [Algorithm,Structure]" +
-            Objects.equals(stringDeque.toString(), "[Algorithm," + "Structure]"));
 
         StdOut.println("================= INT DEQUE =================");
         Deque<Integer> intDeque = new Deque<>();
@@ -178,6 +166,5 @@ public class Deque<Item> implements Iterable<Item> {
         StdOut.println("next item is 1 ? " + (intDeque.iterator().next() == 1));
         StdOut.println("is Deque empty ? " + intDeque.isEmpty());
         StdOut.println("Deque has next ? " + intDeque.iterator().hasNext());
-        StdOut.println("toString is [1,4] ? " + Objects.equals(intDeque.toString(), "[1,4]"));
     }
 }

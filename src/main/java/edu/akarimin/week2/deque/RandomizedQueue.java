@@ -17,7 +17,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int last;
 
     public RandomizedQueue() {
-        @SuppressWarnings("unchecked")
         Item[] newArray = (Item[]) new Object[1];
         items = newArray;
         last = -1;
@@ -38,7 +37,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         this.validatePushingItemNullity(item);
         if (last + 1 == items.length)
             resize(2 * items.length);
-        items[last++] = item;
+        items[++last] = item;
     }
 
     // remove and return a random item
@@ -47,7 +46,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         int rand = StdRandom.uniform(last + 1);
         Item dequeued = items[rand];
         items[last--] = null;
-        if (last + 1 == items.length / 4)
+        if (size() > 0 && last + 1 == items.length / 4)
             resize(items.length / 2);
         return dequeued;
     }
@@ -55,14 +54,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // return a random item (but do not remove it)
     public Item sample() {
         this.validatePoppingItemNullity();
-        Item sample = null;
-        while (sample == null) {
-            sample = items[StdRandom.uniform(last + 1)];
-        }
-        return sample;
+        Item sample = items[StdRandom.uniform(last + 1)];
+        if (Objects.nonNull(sample))
+            return sample;
+        else
+            return sample();
     }
 
-    @SuppressWarnings("unchecked")
     private void resize(int newCapacity) {
         Object[] resized = new Object[newCapacity];
         System.arraycopy(items, 0, resized, 0, items.length);
@@ -75,19 +73,33 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return new RandomizedQueueIterator();
     }
 
-    // TODO:
     private class RandomizedQueueIterator implements Iterator<Item> {
+
+        private final Item[] copiedItems;
+        private int copiedLast;
+
+        RandomizedQueueIterator() {
+            Item[] tempArray = (Item[]) new Object[last + 1];
+            if (last + 1 >= 0)
+                System.arraycopy(items, 0, tempArray, 0, last + 1);
+            copiedItems = tempArray;
+            copiedLast = last;
+        }
 
         @Override
         public boolean hasNext() {
-            return false;
+            return copiedLast >= 0;
         }
 
         @Override
         public Item next() {
             if (!hasNext())
                 throw new NoSuchElementException("cannot remove an item from an empty RandomizedQueue.");
-            return null;
+            int rand = StdRandom.uniform(0, copiedLast + 1);
+            Item item = copiedItems[rand];
+            copiedItems[rand] = copiedItems[copiedLast];
+            copiedItems[copiedLast--] = null;
+            return item;
         }
 
         @Override
