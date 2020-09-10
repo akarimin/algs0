@@ -3,7 +3,6 @@ package edu.akarimin.week2;
 import edu.princeton.cs.algs4.StdIn;
 
 import java.util.Objects;
-import java.util.Scanner;
 import java.util.Stack;
 
 /**
@@ -15,7 +14,6 @@ public class Evaluate {
         Stack<Double> vals = new Stack<>();
         Stack<String> ops = new Stack<>();
         System.out.println("Insert executable expression: ");
-        Scanner scanner = new Scanner(System.in);
         while (!StdIn.isEmpty()) {
             String s = StdIn.readString();
             if (Objects.equals("(", s)) ;
