@@ -1,5 +1,8 @@
 package edu.akarimin.week2;
 
+/**
+ * Basic Strategy
+ */
 public class InsertionSort {
 
     public static void sort(Comparable[] a) {
