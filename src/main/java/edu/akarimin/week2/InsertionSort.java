@@ -2,13 +2,16 @@ package edu.akarimin.week2;
 
 /**
  * Basic Strategy
+ * ~1/4 N^2 compares and exchanges. Twice as fast as Selection Sort.
+ * Best Case: N-1 compares and 0 exchanges.
+ * Worst Case: ~1/2N^2 compares and ~1/2N^2 exchanges.
  */
 public class InsertionSort {
 
     public static void sort(Comparable[] a) {
         for (int i = 0; i < a.length; i++)
             for (int j = i; j > 0; j--)
-                if (a[j].compareTo(a[j - 1]) < 0) {
+                if (less(a[j], a[j - 1])) {   // N-1 look back
                     exchange(a, j, j - 1);
                 } else
                     break;
