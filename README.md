@@ -8,7 +8,7 @@ https://www.coursera.org/learn/algorithms-part1
 
 W1. Percolation: 92%
 
-W2. 
+W2. Queues:      92%
 
 W3. 
 
