@@ -5,6 +5,7 @@ package edu.akarimin.week2;
  * ~1/4 N^2 compares and exchanges. Twice as fast as Selection Sort.
  * Best Case: N-1 compares and 0 exchanges.
  * Worst Case: ~1/2N^2 compares and ~1/2N^2 exchanges.
+ * Idea: Start with i, check if j = i and loop over j > 0, if j > i - 1 exchange.
  */
 public class InsertionSort {
 
