@@ -22,9 +22,8 @@ public class SimpleSortingClient {
     }
 
     private void sortStrings(String[] args) {
-        String[] a = args;
-        Insertion.sort(a);
-        for (String s : a) {
+        Insertion.sort(args);
+        for (String s : args) {
             StdOut.println(s);
         }
     }
