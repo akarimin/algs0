@@ -1,5 +1,8 @@
 package edu.akarimin.week2;
 
+import java.util.Arrays;
+import java.util.Stack;
+
 /**
  * A set of n points is the smallest perimeter fence enclosing the points.
  * پوسته کوژ (قشر محدب)
@@ -32,5 +35,12 @@ public class ConvexHull {
             return 1;
         else                   // collinear
             return 0;
+    }
+
+    //Graham Scan
+    public void scan() {
+        Stack<Point2D> hull = new Stack<>();
+        Arrays.sort(p, Point2D.Y_ORDER);   // sort with lowest y-coordinate
+        Arrays.sort(p, p[0].BY_POLAR_ORDER);
     }
 }
