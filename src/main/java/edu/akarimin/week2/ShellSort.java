@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Always takes quadratic time no matter what values in the array.
  * Idea: Move several position at a time called h-Sorting the array.
  * So ShellSort is Insertion sorting with h-sort.
- * worst-case comparisons woth 3X+1: O(N^3/2)
+ * worst-case comparisons with 3X+1: O(N^3/2)
  * Accurate model has not been discovered yet.
  */
 public class ShellSort {
