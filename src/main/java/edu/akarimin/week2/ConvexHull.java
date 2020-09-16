@@ -1,6 +1,7 @@
 package edu.akarimin.week2;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Stack;
 
 /**
@@ -13,10 +14,12 @@ import java.util.Stack;
  * 2. Always you can move counterclockwise from lowest vertex.
  * <p>
  * Solution for 1: Define a total order comparing by y-coordinates.
+ * <p>
+ * Scan: NLogN for sorting and linear for rest
  */
 public class ConvexHull {
 
-    public class Point2D {
+    public static class Point2D {
         private final double x;
         private final double y;
 
@@ -37,10 +40,21 @@ public class ConvexHull {
             return 0;
     }
 
-    //Graham Scan
-    public void scan() {
+    // Graham Scan
+    // Simplifying assumptions: no three points on a line; at least 3 points
+    public void scan(Point2D[] p) {
         Stack<Point2D> hull = new Stack<>();
-        Arrays.sort(p, Point2D.Y_ORDER);   // sort with lowest y-coordinate
-        Arrays.sort(p, p[0].BY_POLAR_ORDER);
+        Arrays.sort(p, Comparator.comparing(point -> point.y));       // sort with lowest y-coordinate
+        hull.push(p[0]);
+        Arrays.sort(p, Comparator.comparing(point -> -point.x));      // sort by polar angle
+        hull.push(p[1]);
+
+        for (int i = 2; i < p.length; i++) {
+            Point2D top = hull.pop();
+            while (ccw(hull.peek(), top, p[i]) <= 0)
+                top = hull.pop();
+            hull.push(top);
+            hull.push(p[i]);
+        }
     }
 }
