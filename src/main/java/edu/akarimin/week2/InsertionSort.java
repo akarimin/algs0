@@ -32,7 +32,7 @@ public class InsertionSort {
     }
 
     public static boolean isSorted(Comparable[] a, int lo, int hi) {
-        if (hi > a.length || lo < 0)
+        if (hi >= a.length || lo < 0)
             throw new RuntimeException("Invalid lo: " + lo + " and hi: " + hi);
         for (int i = lo + 1; i <= hi; i++)
             if (less(a[i], a[i - 1]))

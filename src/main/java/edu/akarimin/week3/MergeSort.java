@@ -16,9 +16,9 @@ public class MergeSort {
             aux[k] = a[k];
         int i = lo, j = mid + 1;
         for (int k = lo; k <= hi; k++) {     // merge
-            if (i > mid)
+            if (i > mid)                     // if i exhausted (first half) we increment j
                 a[k] = aux[j++];
-            else if (j > hi)
+            else if (j > hi)                 // if j exhausted (first half) we increment i
                 a[k] = aux[i++];
             else if (less(aux[j], aux[i]))
                 a[k] = aux[j++];
