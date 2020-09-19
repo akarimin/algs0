@@ -9,7 +9,7 @@ import static edu.akarimin.week2.InsertionSort.less;
  * Used for Objects in Java.
  * Divide & Conquer.
  * Good algorithms are better than supercomputers.
- * C(N) and A(N) = NLgN
+ * C(N) and A(N) = NLgN ~ 1/2 NLnN (2-based) => Linearithmic
  * Number of Compares and Accesses
  * Tip: MergeSort has too much overhead for tiny sub-arrays.
  * Cutoff to insertion sort for 7 items.
