@@ -12,8 +12,9 @@ public class MergeSort {
         assert isSorted(a, lo, mid);         // precondition: a[lo..mid]    sorted
         assert isSorted(a, mid + 1, hi);  // precondition: a[mid+1..hi]  sorted
 
-        for (int k = lo; k <= hi; k++)       // copy to aux
-            aux[k] = a[k];
+        // copy to aux
+        if (hi + 1 - lo >= 0)
+            System.arraycopy(a, lo, aux, lo, hi + 1 - lo);
         int i = lo, j = mid + 1;
         for (int k = lo; k <= hi; k++) {     // merge
             if (i > mid)                     // if i exhausted (first half) we increment j
