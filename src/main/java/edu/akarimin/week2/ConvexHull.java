@@ -1,5 +1,7 @@
 package edu.akarimin.week2;
 
+import edu.akarimin.week3.Point2D;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Stack;
@@ -19,16 +21,6 @@ import java.util.Stack;
  */
 public class ConvexHull {
 
-    public static class Point2D {
-        private final double x;
-        private final double y;
-
-        public Point2D(double x, double y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
     // is a->b->c counter-clock-wise ?
     public static int ccw(Point2D a, Point2D b, Point2D c) {
         double area2 = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
@@ -46,7 +38,7 @@ public class ConvexHull {
         Stack<Point2D> hull = new Stack<>();
         Arrays.sort(p, Comparator.comparing(point -> point.y));       // sort with lowest y-coordinate
         hull.push(p[0]);
-        Arrays.sort(p, Comparator.comparing(point -> -point.x));      // sort by polar angle
+        Arrays.sort(p, p[0].POLAR_ORDER);                             // sort by polar angle
         hull.push(p[1]);
 
         for (int i = 2; i < p.length; i++) {
