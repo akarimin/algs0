@@ -1,7 +1,7 @@
 package edu.akarimin.week3;
 
 /**
- * No Recursion - Industrial-Strength
+ * No Recursion - Industrial-Strength - it used more space than regular mergesort
  */
 public class BottomUpMergeSort {
 
