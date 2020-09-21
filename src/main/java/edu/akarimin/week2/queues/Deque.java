@@ -1,4 +1,4 @@
-package edu.akarimin.week2.deque;
+package edu.akarimin.week2.queues;
 
 import edu.princeton.cs.algs4.StdOut;
 
