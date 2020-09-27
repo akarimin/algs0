@@ -4,10 +4,19 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Arrays;
+import java.util.Objects;
+
+/**
+ * O(N^2)
+ */
 public class FastCollinearPoints {
 
     public FastCollinearPoints(Point[] points) {    // finds all line segments containing 4 or more points
-
+        if (Objects.isNull(points) ||
+                Arrays.stream(points).anyMatch(Objects::isNull) ||
+                Arrays.stream(points).distinct().count() != points.length)
+            throw new IllegalArgumentException("Points are not valid.");
     }
 
     public int numberOfSegments() {                 // the number of line segments

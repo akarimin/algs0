@@ -1,5 +1,7 @@
 package edu.akarimin.week3.collinear;
 
+import edu.princeton.cs.algs4.StdDraw;
+
 import java.util.Comparator;
 
 public final class Point implements Comparable<Point> {
@@ -17,11 +19,11 @@ public final class Point implements Comparable<Point> {
     }
 
     public void draw() {                        // draws this point
-
+        StdDraw.point(this.x, this.y);
     }
 
     public void drawTo(Point that) {            // draws the line segment from this point to that point
-
+        StdDraw.line(this.x, this.y, that.x, that.y);
     }
 
     public int compareTo(Point that) {          // compare two points by y-coordinates, breaking ties by x-coordinates
@@ -47,6 +49,14 @@ public final class Point implements Comparable<Point> {
 
     public Comparator<Point> slopeOrder() {     // compare two points by slopes they make with this point
         return (o1, o2) -> (int) o1.slopeTo(o2);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public String toString() {                  // string representation

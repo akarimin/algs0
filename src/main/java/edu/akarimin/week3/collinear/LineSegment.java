@@ -1,5 +1,7 @@
 package edu.akarimin.week3.collinear;
 
+import edu.princeton.cs.algs4.StdDraw;
+
 public class LineSegment {
 
     private final Point p;
@@ -11,7 +13,7 @@ public class LineSegment {
     }
 
     public void draw() {                         // draws this line segment
-
+        StdDraw.line(p.getX(), p.getY(), q.getX(), q.getY());
     }
 
     public String toString() {                   // string representation
