@@ -1,6 +1,12 @@
 package edu.akarimin.week3.collinear;
 
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdOut;
+
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -8,31 +14,79 @@ import java.util.Objects;
  */
 public class BruteCollinearPoints {
 
-    private int segmentNum = 0;
+    private final List<LineSegment> segments;
 
     public BruteCollinearPoints(final Point[] points) {   // finds all line segments containing 4 points
-        if (Objects.isNull(points) ||
-                Arrays.stream(points).anyMatch(Objects::isNull) ||
-                Arrays.stream(points).distinct().count() != points.length)
-            throw new IllegalArgumentException("Points are not valid.");
-        if (points.length != 4)
-            throw new IllegalArgumentException("4 points needed.");
-        for (int i = 0; i < points.length; i++) {
-            double[] slopes = new double[3];
-            for (int j = i + 1; j < points.length; j++) {
-                slopes[j] = points[i].slopeTo(points[j]);
+        this.validatePoints(points);
+        Arrays.sort(points);
+        int n = points.length;
+        segments = new LinkedList<>();
+        for (int i = 0; i < n - 3; i++) {
+            Point a = points[i];
+            for (int j = i + 1; j < n - 2; j++) {
+                Point b = points[j];
+                double abSlope = a.slopeTo(b);
+                for (int k = j + 1; k < n - 1; k++) {
+                    Point c = points[k];
+                    double acSlope = a.slopeTo(c);
+                    if (abSlope == acSlope) {
+                        for (int w = k + 1; w < n; w++) {
+                            Point d = points[w];
+                            double adSlope = a.slopeTo(d);
+                            if (abSlope == adSlope) {
+                                segments.add(new LineSegment(a, d));
+                            }
+                        }
+                    }
+                }
             }
-            if (Arrays.stream(slopes).distinct().count() <= 1)
-                segmentNum++;
         }
     }
 
     public int numberOfSegments() {                 // the number of line segments
-        return segmentNum;
+        return segments.size();
     }
 
     public LineSegment[] segments() {               // the line segments
-        return null;
+        return segments.toArray(new LineSegment[0]);
+    }
+
+    private void validatePoints(final Point[] points) {
+        if (Objects.isNull(points) ||
+                Arrays.stream(points).anyMatch(Objects::isNull))
+            throw new NullPointerException("Points are not valid.");
+        if (Arrays.stream(points).distinct().count() != points.length)
+            throw new IllegalArgumentException("Duplicate points exist.");
+    }
+
+    public static void main(String[] args) {
+
+        // read the n points from a file
+        In in = new In(args[0]);
+        int n = in.readInt();
+        Point[] points = new Point[n];
+        for (int i = 0; i < n; i++) {
+            int x = in.readInt();
+            int y = in.readInt();
+            points[i] = new Point(x, y);
+        }
+
+        // draw the points
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        for (Point p : points) {
+            p.draw();
+        }
+        StdDraw.show();
+
+        // print and draw the line segments
+        BruteCollinearPoints collinear = new BruteCollinearPoints(points);
+        for (LineSegment segment : collinear.segments()) {
+            StdOut.println(segment);
+            segment.draw();
+        }
+        StdDraw.show();
     }
 }
 

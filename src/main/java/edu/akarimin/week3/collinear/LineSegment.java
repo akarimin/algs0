@@ -17,6 +17,6 @@ public class LineSegment {
     }
 
     public String toString() {                   // string representation
-        return "{p=" + p.toString() + ",q=" + q.toString();
+        return p.toString() + " -> " + q.toString();
     }
 }

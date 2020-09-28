@@ -60,6 +60,6 @@ public final class Point implements Comparable<Point> {
     }
 
     public String toString() {                  // string representation
-        return "{x='" + x + "','y='" + y + "'";
+        return "("+ x + "," + y + ")";
     }
 }
