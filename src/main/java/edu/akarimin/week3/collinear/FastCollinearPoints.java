@@ -1,30 +1,64 @@
 package edu.akarimin.week3.collinear;
 
+
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * O(N^2)
  */
-public class FastCollinearPoints {
+public final class FastCollinearPoints {
+
+    private final LineSegment[] segments;
 
     public FastCollinearPoints(Point[] points) {    // finds all line segments containing 4 or more points
-        if (Objects.isNull(points) ||
-                Arrays.stream(points).anyMatch(Objects::isNull) ||
-                Arrays.stream(points).distinct().count() != points.length)
-            throw new IllegalArgumentException("Points are not valid.");
+        this.validatePoints(points);
+        int n = points.length;
+        Arrays.sort(points);
+        final List<LineSegment> maxLineSegments = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+
+            Point p = points[i];
+            Point[] slopeSortedClone = points.clone();
+            Arrays.sort(slopeSortedClone, p.slopeOrder());
+
+            int x = 1;
+            while (x < n) {
+                LinkedList<Point> selectedSegments = new LinkedList<>();
+                double originSlope = p.slopeTo(slopeSortedClone[x]);
+                do {
+                selectedSegments.add(slopeSortedClone[x++]);
+            } while (x < n && p.slopeTo(slopeSortedClone[x]) == originSlope);
+
+                if (selectedSegments.size() >= 3 && p.compareTo(selectedSegments.peek()) < 0) {
+                    Point max = selectedSegments.removeLast();
+                    maxLineSegments.add(new LineSegment(p, max));
+                }
+            }
+        }
+        segments = maxLineSegments.toArray(new LineSegment[0]);
     }
 
     public int numberOfSegments() {                 // the number of line segments
-        return 0;
+        return segments.length;
     }
 
     public LineSegment[] segments() {               // the line segments
-        return null;
+        return Arrays.copyOf(segments, segments.length);
+    }
+
+    private void validatePoints(final Point[] points) {
+        if (Objects.isNull(points) ||
+                Arrays.stream(points).anyMatch(Objects::isNull))
+            throw new NullPointerException("Points are not valid.");
+        if (Arrays.stream(points).distinct().count() != points.length)
+            throw new IllegalArgumentException("Duplicate points exist.");
     }
 
     public static void main(String[] args) {

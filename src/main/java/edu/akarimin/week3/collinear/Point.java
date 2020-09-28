@@ -1,5 +1,6 @@
 package edu.akarimin.week3.collinear;
 
+
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.util.Comparator;
@@ -10,10 +11,6 @@ public final class Point implements Comparable<Point> {
     private final int y;
 
     public Point(final int x, final int y) {                // constructs the point (x, y)
-        if (x < 0 || x > 32767)
-            throw new IllegalArgumentException("x is invalid: " + x);
-        if (y < 0 || y > 32767)
-            throw new IllegalArgumentException("y is invalid: " + y);
         this.x = x;
         this.y = y;
     }
@@ -44,22 +41,14 @@ public final class Point implements Comparable<Point> {
         else if (xDiff == 0)
             return Double.POSITIVE_INFINITY;
         else
-            return yDiff / xDiff;
+            return (double) (yDiff / xDiff);
     }
 
     public Comparator<Point> slopeOrder() {     // compare two points by slopes they make with this point
         return (o1, o2) -> (int) o1.slopeTo(o2);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public String toString() {                  // string representation
-        return "("+ x + "," + y + ")";
+        return "(" + x + "," + y + ")";
     }
 }

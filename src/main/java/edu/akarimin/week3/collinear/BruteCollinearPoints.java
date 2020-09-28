@@ -12,15 +12,15 @@ import java.util.Objects;
 /**
  * O(N^4)
  */
-public class BruteCollinearPoints {
+public final class BruteCollinearPoints {
 
-    private final List<LineSegment> segments;
+    private final LineSegment[] segments;
 
     public BruteCollinearPoints(final Point[] points) {   // finds all line segments containing 4 points
         this.validatePoints(points);
         Arrays.sort(points);
         int n = points.length;
-        segments = new LinkedList<>();
+        List<LineSegment> segmentsSorted = new LinkedList<>();
         for (int i = 0; i < n - 3; i++) {
             Point a = points[i];
             for (int j = i + 1; j < n - 2; j++) {
@@ -34,21 +34,22 @@ public class BruteCollinearPoints {
                             Point d = points[w];
                             double adSlope = a.slopeTo(d);
                             if (abSlope == adSlope) {
-                                segments.add(new LineSegment(a, d));
+                                segmentsSorted.add(new LineSegment(a, d));
                             }
                         }
                     }
                 }
             }
         }
+        segments = segmentsSorted.toArray(new LineSegment[0]);
     }
 
     public int numberOfSegments() {                 // the number of line segments
-        return segments.size();
+        return segments.length;
     }
 
     public LineSegment[] segments() {               // the line segments
-        return segments.toArray(new LineSegment[0]);
+        return Arrays.copyOf(segments, segments.length);
     }
 
     private void validatePoints(final Point[] points) {
