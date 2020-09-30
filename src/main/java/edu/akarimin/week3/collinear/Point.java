@@ -4,6 +4,7 @@ package edu.akarimin.week3.collinear;
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 public final class Point implements Comparable<Point> {
 
@@ -24,6 +25,8 @@ public final class Point implements Comparable<Point> {
     }
 
     public int compareTo(Point that) {          // compare two points by y-coordinates, breaking ties by x-coordinates
+        if (Objects.isNull(that))
+            throw new NullPointerException("Point is not provided.");
         int diff = this.y - that.y;
         if (diff <= 0) {
             diff = this.x - that.x;
@@ -32,6 +35,8 @@ public final class Point implements Comparable<Point> {
     }
 
     public double slopeTo(Point that) {         // the slope between this point and that point
+        if (Objects.isNull(that))
+            throw new NullPointerException("Point is not provided.");
         int yDiff = that.y - this.y;
         int xDiff = that.x - this.x;
         if (xDiff == 0 && yDiff == 0)
@@ -41,14 +46,30 @@ public final class Point implements Comparable<Point> {
         else if (xDiff == 0)
             return Double.POSITIVE_INFINITY;
         else
-            return (double) (yDiff / xDiff);
+            return ((double) yDiff / (double) xDiff);
     }
 
     public Comparator<Point> slopeOrder() {     // compare two points by slopes they make with this point
-        return (o1, o2) -> (int) o1.slopeTo(o2);
+        return new SlopeComparator(this);
     }
 
     public String toString() {                  // string representation
         return "(" + x + "," + y + ")";
+    }
+
+    private class SlopeComparator implements Comparator<Point> {
+
+        private final Point comparingPoint;
+
+        public SlopeComparator(final Point point) {
+            this.comparingPoint = point;
+        }
+
+        @Override
+        public int compare(Point o1, Point o2) {
+            double thisSlope = o1.slopeTo(comparingPoint);
+            double thatSlope = o2.slopeTo(comparingPoint);
+            return Double.compare(thisSlope, thatSlope);
+        }
     }
 }
