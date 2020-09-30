@@ -49,7 +49,7 @@ public final class BruteCollinearPoints {
     }
 
     public LineSegment[] segments() {               // the line segments
-        return Arrays.copyOf(segments, segments.length);
+        return Arrays.stream(segments).toArray(LineSegment[]::new);
     }
 
     private void validatePoints(final Point[] points) {

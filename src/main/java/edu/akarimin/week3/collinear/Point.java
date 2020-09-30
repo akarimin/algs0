@@ -28,7 +28,7 @@ public final class Point implements Comparable<Point> {
         if (Objects.isNull(that))
             throw new NullPointerException("Point is not provided.");
         int diff = this.y - that.y;
-        if (diff <= 0) {
+        if (diff == 0) {
             diff = this.x - that.x;
         }
         return diff;
@@ -37,8 +37,8 @@ public final class Point implements Comparable<Point> {
     public double slopeTo(Point that) {         // the slope between this point and that point
         if (Objects.isNull(that))
             throw new NullPointerException("Point is not provided.");
-        int yDiff = that.y - this.y;
-        int xDiff = that.x - this.x;
+        int yDiff = this.y - that.y;
+        int xDiff = this.x - that.x;
         if (xDiff == 0 && yDiff == 0)
             return Double.NEGATIVE_INFINITY;
         else if (yDiff == 0)
@@ -46,7 +46,7 @@ public final class Point implements Comparable<Point> {
         else if (xDiff == 0)
             return Double.POSITIVE_INFINITY;
         else
-            return ((double) yDiff / (double) xDiff);
+            return (yDiff * 1.0 / xDiff);
     }
 
     public Comparator<Point> slopeOrder() {     // compare two points by slopes they make with this point
