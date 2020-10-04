@@ -53,11 +53,14 @@ public final class BruteCollinearPoints {
     }
 
     private void validatePoints(final Point[] points) {
-        if (Objects.isNull(points) ||
-                Arrays.stream(points).anyMatch(Objects::isNull))
+        if (Objects.isNull(points))
             throw new NullPointerException("Points are not valid.");
-        if (Arrays.stream(points).distinct().count() != points.length)
-            throw new IllegalArgumentException("Duplicate points exist.");
+        for (Point point : points)
+            if (Objects.isNull(point))
+                throw new NullPointerException("Points are not valid.");
+        for (int i = 0; i < points.length; i++)
+            if (points[i].compareTo(points[i + 1]) == 0)
+                throw new IllegalArgumentException("Duplicate points exist: " + points[i].toString());
     }
 
     public static void main(String[] args) {
