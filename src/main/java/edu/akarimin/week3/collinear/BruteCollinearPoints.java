@@ -58,7 +58,7 @@ public final class BruteCollinearPoints {
         for (Point point : points)
             if (Objects.isNull(point))
                 throw new NullPointerException("Points are not valid.");
-        for (int i = 0; i < points.length; i++)
+        for (int i = 0; i < points.length - 1; i++)
             if (points[i].compareTo(points[i + 1]) == 0)
                 throw new IllegalArgumentException("Duplicate points exist: " + points[i].toString());
     }
