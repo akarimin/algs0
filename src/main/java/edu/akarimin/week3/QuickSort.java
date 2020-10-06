@@ -2,7 +2,12 @@ package edu.akarimin.week3;
 
 
 import edu.akarimin.week2.InsertionSort;
+import edu.princeton.cs.algs4.Insertion;
 import edu.princeton.cs.algs4.StdRandom;
+
+import java.util.Arrays;
+
+import static java.util.Collections.swap;
 
 /**
  * Recursive, invented in 1961 by Hoare
@@ -13,6 +18,8 @@ import edu.princeton.cs.algs4.StdRandom;
  * 3. Sort each piece recursively
  * Worst-case: ~1/2 N^2
  * Best-case: ~NLgN
+ * Average number of comparisons: ~ 1.39NLgN
+ * 39% more compares than merge-sort but faster bc less data movement
  */
 public class QuickSort {
 
@@ -49,5 +56,37 @@ public class QuickSort {
 
         InsertionSort.exchange(a, lo, j);       // swap with partitioning item
         return j;
+    }
+
+    private static final int CUTOFF = 10;
+
+    /**
+     * improvement: even Quick-Sort has over-head for small array
+     */
+    private static void cutoffSort(Comparable[] a, int lo, int hi) {
+        if (hi <= lo + CUTOFF - 1) {
+            Insertion.sort(a, lo, hi);
+            return;
+        }
+        int j = partition(a, lo, hi);
+        sort(a, lo, j);
+        sort(a, j + 1, hi);
+    }
+
+    /**
+     * improvement: Take the best choice of pivot item = median
+     */
+    private static void medianSort(Comparable[] a, int lo, int hi) {
+        if (hi <= lo + CUTOFF - 1)
+            return;
+        int m = medianOf3(a, lo, lo + (hi - lo) / 2, hi);
+        swap(Arrays.asList(a), lo, m); // not optimized - implement it
+        int j = partition(a, lo, hi);
+        sort(a, lo, j);
+        sort(a, j + 1, hi);
+    }
+
+    private static int medianOf3(Comparable[] a, int lo, int mid, int hi) {
+        return (lo + mid + hi) / 3;
     }
 }
