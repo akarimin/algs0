@@ -10,7 +10,7 @@ W1. Percolation: 92%
 
 W2. Queues:      92%
 
-W3. 
+W3. Collinear:   91%
 
 W4. 
 

@@ -17,7 +17,7 @@ import static java.util.Collections.swap;
  * 2. Partition the array in a way that for j, there no larger entry to the left and no smaller entry to the right of j
  * 3. Sort each piece recursively
  * Worst-case: ~1/2 N^2
- * Best-case: ~NLgN
+ * Best-case: ~2NLgN
  * Average number of comparisons: ~ 1.39NLgN
  * 39% more compares than merge-sort but faster bc less data movement
  */
