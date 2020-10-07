@@ -39,7 +39,7 @@ public class QuickSort {
     /**
      * @return index of item now known to be in place
      */
-    private static int partition(Comparable[] a, int lo, int hi) {
+    public static int partition(Comparable[] a, int lo, int hi) {
         int i = lo;
         int j = hi + 1;
         while (true) {
