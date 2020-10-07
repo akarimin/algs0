@@ -11,6 +11,7 @@ public class Selection {
     /**
      * Kind of Quick Sort but repeat in one sub-array, depending on j; finished when j equals k.
      * Average: Linear
+     * Worst: Quadratic (Open problem to find a Linear worst-case algorithm)
      */
     private static class QuickSelect {
 
