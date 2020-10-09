@@ -30,6 +30,5 @@ public class Selection {
             }
             return a[k];
         }
-
     }
 }
