@@ -2,6 +2,9 @@ package edu.akarimin.week3;
 
 import edu.akarimin.week2.InsertionSort;
 
+/**
+ * To overcome quadratic time in case of duplicate keys.
+ */
 public class ThreeWayQuickSort {
 
     public static void sort(Comparable[] a, int lo, int hi) {
