@@ -1,7 +1,6 @@
 package edu.akarimin.week4;
 
 import edu.akarimin.week2.InsertionSort;
-import edu.princeton.cs.algs4.Insertion;
 
 import static edu.akarimin.week2.InsertionSort.less;
 
