@@ -38,4 +38,26 @@ public class BinaryHeap<Key extends Comparable<Key>> {
        pq[++n] = x;
        swim(n);
     }
+
+    // if a new boss is hired and is less than subordinates, it should swim down (sink), starting with greater child
+    private void sink(int k) {
+        while (2*k <= n) {
+            int j = 2*k;
+            if (j < n && less(j, j + 1))    // children of node k (subordinates)
+                j++;
+            if (!less(k, j))
+                break;
+            exchange(pq, k, j);
+            k = j;
+        }
+    }
+
+    // brilliant
+    public Key delMax() {
+        Key max = pq[1];
+        exchange(pq, 1, n--);       // violates heap order so we need a sink
+        sink(1);
+        pq[n + 1] = null;             // prevent loitering
+        return max;
+    }
 }
