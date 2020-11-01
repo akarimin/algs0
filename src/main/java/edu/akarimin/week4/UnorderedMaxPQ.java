@@ -13,7 +13,7 @@ import static edu.akarimin.week2.InsertionSort.less;
 public class UnorderedMaxPQ<Key extends Comparable<Key>> {
 
     private final Key[] pq;       // pq[i] = ith element on pq
-    private int n;          // number of elements on pq
+    private int n;                // number of elements on pq
 
     @SuppressWarnings("unchecked")
     public UnorderedMaxPQ(int capacity) {
