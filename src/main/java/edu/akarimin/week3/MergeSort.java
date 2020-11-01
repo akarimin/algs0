@@ -6,7 +6,8 @@ import static edu.akarimin.week2.InsertionSort.isSorted;
 import static edu.akarimin.week2.InsertionSort.less;
 
 /**
- * Used for Objects in Java bc it is in-place and the fastest general-purpose algorithm in practice.
+ * Used for Objects in Java bc it is the fastest
+ * general-purpose algorithm in practice and it is stable, but not in-place.
  * Divide & Conquer.
  * Good algorithms are better than supercomputers.
  * C(N) and A(N) = NLgN ~ 1/2 NLnN (2-based) => Linearithmic

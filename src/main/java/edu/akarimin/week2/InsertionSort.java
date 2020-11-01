@@ -1,7 +1,7 @@
 package edu.akarimin.week2;
 
 /**
- * Basic Strategy
+ * Basic Strategy - Stable
  * ~1/4 N^2 compares and exchanges. Twice as fast as Selection Sort.
  * Best Case: N-1 compares and 0 exchanges.
  * Worst Case: ~1/2N^2 compares and ~1/2N^2 exchanges.
