@@ -1,6 +1,9 @@
 package edu.akarimin.week4.puzzle;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -8,6 +11,8 @@ public class Board {
 
     private final int[] pq;
     private final int n;
+    private int blank;
+    private int neighbour;
 
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
@@ -68,7 +73,7 @@ public class Board {
         return num / n;
     }
 
-    private int col(int num, int row) {   //
+    private int col(int num, int row) {
         return num - row * n;
     }
 
@@ -92,49 +97,48 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        int blank = -100;
         for (int i = 0; i < pq.length; i++)
             if (pq[i] == 0)
                 blank = i;
-        return Stream.of(west(blank), east(blank), north(blank), south(blank))
+        return Stream.of(west(), east(), north(), south())
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
     }
 
-    private Board west(int blank) {
+    private Board west() {
         if (blank % n != 0) {
-            int west = blank - 1;
-            return this.twin(blank, west);
+            neighbour = blank - 1;
+            return this.twin();
         }
         return null;
     }
 
-    private Board east(int blank) {
+    private Board east() {
         if (blank % n != n - 1) {
-            int east = blank + 1;
-            return this.twin(blank, east);
+            neighbour = blank + 1;
+            return this.twin();
         }
         return null;
     }
 
-    private Board north(int blank) {
+    private Board north() {
         if (blank >= n) {
-            int north = blank - n;
-            return this.twin(blank, north);
+            neighbour = blank - n;
+            return this.twin();
         }
         return null;
     }
 
-    private Board south(int blank) {
-        if (blank >= n * n - n) {
-            int south = blank + n;
-            return this.twin(blank, south);
+    private Board south() {
+        if (blank < n * n - n) {
+            neighbour = blank + n;
+            return this.twin();
         }
         return null;
     }
 
     // a board that is obtained by exchanging any pair of tiles
-    private Board twin(int blank, int neighbour) {
+    public Board twin() {
         int[][] tiles = new int[n][n];
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles.length; j++) {
@@ -147,6 +151,11 @@ public class Board {
             }
         }
         return new Board(tiles);
+    }
+
+    private void validateArraySize(int n) {
+        if (n < 2 || n >= 128)
+            throw new IllegalArgumentException("invalid size of array: " + n);
     }
 
     // unit testing (not graded)
@@ -165,12 +174,9 @@ public class Board {
         System.out.println(board.toString());
         System.out.println("hamming => " + board.hamming());
         System.out.println("manhattan => " + board.manhattan());
-        System.out.println("east => " + board.east(1));
+        System.out.println("isGoal ? => " + board.isGoal());
+        System.out.println("neighbours => ");
+        board.neighbors().forEach(System.out::println);
 
-    }
-
-    private void validateArraySize(int n) {
-        if (n < 2 || n >= 128)
-            throw new IllegalArgumentException("invalid size of array: " + n);
     }
 }
