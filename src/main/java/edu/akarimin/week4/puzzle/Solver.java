@@ -10,8 +10,8 @@ import java.util.Objects;
 
 public final class Solver {
 
-    private boolean isSolvable;
-    private MinPQ<SearchNode> minPQ;
+    private final boolean isSolvable;
+    private final MinPQ<SearchNode> minPQ;
     private SearchNode solutionNode;
 
     // find a solution to the initial board (using the A* algorithm)
@@ -122,7 +122,7 @@ public final class Solver {
             StdOut.println("No solution possible");
         else {
             StdOut.println("Minimum number of moves = " + solver.moves());
-            for (Board board : solver.solution())
+            for (Board board : Objects.requireNonNull(solver.solution()))
                 StdOut.println(board);
         }
     }

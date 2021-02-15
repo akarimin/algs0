@@ -1,8 +1,5 @@
 package edu.akarimin.week4.puzzle;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -79,11 +76,13 @@ public class Board {
 
     // is this board the goal board?
     public boolean isGoal() {
-        boolean isAllSet = false;
-        for (int i = 0; i < pq.length - 1; i++)
-            do {
-                isAllSet = true;
-            } while (pq[i] == i + 1);
+        boolean isAllSet = true;
+        for (int i = 0; i < pq.length - 1; i++) {
+            if (pq[i] != i + 1) {
+                isAllSet = false;
+                break;
+            }
+        }
         return isAllSet && pq[pq.length - 1] == 0;
     }
 
@@ -159,24 +158,5 @@ public class Board {
     }
 
     // unit testing (not graded)
-    public static void main(String[] args) {
-        int n = 3;
-        int[][] tiles = new int[n][n];
-        List<Integer> list = new ArrayList<>(n * n);
-        for (int i = 0; i < n * n; i++)
-            list.add(i);
-        Collections.shuffle(list);
-        for (int i = 0; i < tiles.length; i++)
-            for (int j = 0; j < tiles.length; j++) {
-                tiles[i][j] = list.get(i * tiles.length + j);
-            }
-        Board board = new Board(tiles);
-        System.out.println(board.toString());
-        System.out.println("hamming => " + board.hamming());
-        System.out.println("manhattan => " + board.manhattan());
-        System.out.println("isGoal ? => " + board.isGoal());
-        System.out.println("neighbours => ");
-        board.neighbors().forEach(System.out::println);
-
-    }
+    public static void main(String[] args) {}
 }
