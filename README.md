@@ -12,7 +12,7 @@ W2. Queues:      92%
 
 W3. Collinear:   91%
 
-W4. 
+W4. 8Puzzle:     65%
 
 W5.
 
