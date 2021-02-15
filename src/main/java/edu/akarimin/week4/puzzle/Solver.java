@@ -11,15 +11,13 @@ import java.util.Objects;
 public final class Solver {
 
     private final boolean isSolvable;
-    private final MinPQ<SearchNode> minPQ;
     private SearchNode solutionNode;
 
     // find a solution to the initial board (using the A* algorithm)
     public Solver(final Board initial) {
         if (Objects.isNull(initial))
             throw new IllegalArgumentException("initial Board is null.");
-        solutionNode = null;
-        minPQ = new MinPQ<>();
+        MinPQ<SearchNode> minPQ = new MinPQ<>();
         minPQ.insert(new SearchNode(null, initial, 0));
 
         while (true) {
@@ -30,17 +28,17 @@ public final class Solver {
                 solutionNode = currentNode;
                 break;
             }
-            if (current.hamming() == 2 && current.twin().isGoal()) {
+            if (current.manhattan() == 2 && current.twin().isGoal()) {
                 isSolvable = false;
                 break;
             }
             int moves = currentNode.getMoves();
             Board prevBoard = moves > 0 ? currentNode.prev.getBoard() : null;
 
-            for (Board next: current.neighbors()) {
+            for (Board next : current.neighbors()) {
                 if (Objects.nonNull(prevBoard) && next.equals(prevBoard))
                     continue;
-                minPQ.insert(new SearchNode(currentNode, next,moves + 1));
+                minPQ.insert(new SearchNode(currentNode, next, moves + 1));
             }
 
         }

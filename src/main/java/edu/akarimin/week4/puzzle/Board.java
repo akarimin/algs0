@@ -8,8 +8,8 @@ public class Board {
 
     private final int[] pq;
     private final int n;
-    private int blank;
-    private int neighbour;
+    private int blank = -1;
+    private int neighbour = -1;
 
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
@@ -87,21 +87,31 @@ public class Board {
     }
 
     // does this board equal y?
-    public boolean equals(Board y) {
-        for (int i = 0; this.n == y.n && i < y.pq.length; i++)
-            if (y.pq[i] != this.pq[i])
+    public boolean equals(Object y) {
+        if (Objects.isNull(y) || y.getClass() != this.getClass())
+            return false;
+        Board checking = (Board) y;
+        for (int i = 0; this.n == checking.n && i < checking.pq.length; i++)
+            if (checking.pq[i] != this.pq[i])
                 return false;
         return true;
     }
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        for (int i = 0; i < pq.length; i++)
-            if (pq[i] == 0)
-                blank = i;
+        blank = getBlank();
         return Stream.of(west(), east(), north(), south())
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
+    }
+
+    private int getBlank() {
+        for (int i = 0; i < pq.length; i++)
+            if (pq[i] == 0) {
+                blank = i;
+                return i;
+            }
+        return -1;
     }
 
     private Board west() {
@@ -136,15 +146,30 @@ public class Board {
         return null;
     }
 
+    private int firstNeighbour() {
+        if (Objects.nonNull(north()))
+            return blank - n;
+        else if (Objects.nonNull(south()))
+            return blank + n;
+        else if (Objects.nonNull(east()))
+            return blank + 1;
+        else if (Objects.nonNull(west()))
+            return blank - 1;
+        else
+            return -1;
+    }
+
     // a board that is obtained by exchanging any pair of tiles
     public Board twin() {
+        int b = blank >= 0 ? blank : getBlank();
+        int nb = neighbour >= 0 ? neighbour : firstNeighbour();
         int[][] tiles = new int[n][n];
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles.length; j++) {
-                if (blank == i * tiles.length + j)
-                    tiles[i][j] = pq[neighbour];
-                else if (neighbour == i * tiles.length + j)
-                    tiles[i][j] = pq[blank];
+                if (b == i * tiles.length + j)
+                    tiles[i][j] = pq[nb];
+                else if (nb == i * tiles.length + j)
+                    tiles[i][j] = pq[b];
                 else
                     tiles[i][j] = pq[i * tiles.length + j];
             }
@@ -152,11 +177,9 @@ public class Board {
         return new Board(tiles);
     }
 
-    private void validateArraySize(int n) {
-        if (n < 2 || n >= 128)
+    private void validateArraySize(int size) {
+        if (size < 2 || size >= 128)
             throw new IllegalArgumentException("invalid size of array: " + n);
     }
 
-    // unit testing (not graded)
-    public static void main(String[] args) {}
 }
