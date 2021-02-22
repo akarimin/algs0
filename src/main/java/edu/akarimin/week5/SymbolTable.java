@@ -49,6 +49,19 @@ public class SymbolTable<Key, Value> {
         return null;
     }
 
+    public Key min() {}
+
+    public Key max() {}
+
+    public Key floor(Key key) {}
+
+    public Key ceiling(Key key) {}
+
+    public int rank(Key ey) {}
+
+    public Key select(int k) {}
+
+
     /**
      * Reflexive, Symmetric, Transitive, Non-null.
      */
